@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-br" x-data="{ dark: localStorage.getItem('theme')==='dark'||(!localStorage.getItem('theme')&&window.matchMedia('(prefers-color-scheme: dark)').matches), scrolled:false, mobileMenu:false, progress:0 }" :class="{'dark':dark}" x-init="$watch('dark',v=>localStorage.setItem('theme',v?'dark':'light'));window.addEventListener('scroll',()=>{scrolled=window.scrollY>20;progress=Math.min(100,Math.round((window.scrollY/(document.body.scrollHeight-window.innerHeight))*100));},{passive:true})" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Plano de Continuidade de Negócios (BCP): Como blindar a operação contra indisponibilidades críticas — Artigo por Geovani Matos"/>
+  <meta name="author" content="Geovani de Matos Gonçalves"/>
+  <meta property="og:title" content="Plano de Continuidade de Negócios (BCP) — Geovani Matos"/>
+  <meta property="og:type" content="article"/>
+  <title>Plano de Continuidade de Negócios (BCP) — Geovani Matos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500&display=swap" rel="stylesheet"/>
+  <script>
+    tailwind.config={darkMode:'class',theme:{extend:{fontFamily:{display:['PT Sans','sans-serif'],body:['DM Sans','sans-serif']},colors:{accent:'#6de627','accent-light':'#8bf051','accent-dark':'#55b81d'}}}}
+  </script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;}
+    html{font-family:'DM Sans',sans-serif;}
+    h1,h2,h3,h4,h5,h6{font-family:'PT Sans',sans-serif;}
+    ::-webkit-scrollbar{width:5px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:#6de627;border-radius:99px;}
+    body{transition:background-color .3s,color .3s;}
+    body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4;}
+    .nav-link{position:relative;}
+    .nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:currentColor;transition:width .25s cubic-bezier(.4,0,.2,1);}
+    .nav-link:hover::after{width:100%;}
+    .btn-primary{position:relative;overflow:hidden;}
+    .btn-primary::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:rgba(255,255,255,.18);transform:skewX(-20deg);transition:left .4s cubic-bezier(.4,0,.2,1);}
+    .btn-primary:hover::after{left:160%;}
+    [x-cloak]{display:none!important;}
+    .photo-frame{position:relative;overflow:hidden;background:#e4e4e7;}
+    .photo-frame img{width:100%;height:100%;object-fit:cover;display:block;}
+
+    /* Artigo Customizado */
+    .prose-article h2{font-family:'PT Sans',sans-serif;font-size:1.6rem;font-weight:700;color:inherit;margin:2.5rem 0 1rem;line-height:1.25;}
+    .prose-article h3{font-family:'PT Sans',sans-serif;font-size:1.2rem;font-weight:700;margin:2rem 0 .75rem;line-height:1.3;}
+    .prose-article p{margin:0 0 1.4rem;line-height:1.8;color:#52525b;}
+    .dark .prose-article p{color:#a1a1aa;}
+    .prose-article ul{margin:0 0 1.4rem 1.5rem;list-style:disc;}
+    .prose-article li{margin-bottom:.4rem;line-height:1.7;color:#52525b;}
+    .dark .prose-article li{color:#a1a1aa;}
+    .prose-article code:not(pre code){background:#f4f4f5;color:#55b81d;padding:.15em .4em;border-radius:4px;font-size:.875em;}
+    .dark .prose-article code:not(pre code){background:#27272a;color:#8bf051;}
+    .prose-article blockquote{border-left:3px solid #6de627;padding:.75rem 1.25rem;margin:0 0 1.6rem;background:#f7fee7;border-radius:0 8px 8px 0;}
+    .dark .prose-article blockquote{background:#14532d/20;}
+    .prose-article blockquote p{color:#166534;font-style:italic;margin:0;}
+    .dark .prose-article blockquote p{color:#86efac;}
+    .prose-article a{color:#6de627;text-decoration:underline;text-underline-offset:3px;}
+    .prose-article hr{border:none;border-top:1px solid #e4e4e7;margin:2.5rem 0;}
+    .dark .prose-article hr{border-top-color:#27272a;}
+
+    /* Barra de progresso verde */
+    .progress-bar{position:fixed;top:0;left:0;height:3px;background:#6de627;z-index:100;transition:width .1s;}
+
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity .5s cubic-bezier(.4,0,.2,1),transform .5s cubic-bezier(.4,0,.2,1);}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+    .card{transition:transform .3s cubic-bezier(.4,0,.2,1),border-color .2s;}
+    .card:hover{transform:translateY(-3px);}
+  </style>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 font-body antialiased">
+
+  <!-- Barra de progresso de leitura -->
+  <div class="progress-bar" :style="`width:${progress}%`" role="progressbar" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100" aria-label="Progresso de leitura"></div>
+
+  <!-- NAV (Alinhada à esquerda e com o logotipo fixado) -->
+  <header class="fixed top-0.5 left-0 right-0 z-50 transition-all duration-300"
+    :class="scrolled?'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-sm shadow-black/5':'bg-transparent'">
+    <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between md:justify-start" aria-label="Main navigation">
+      <a href="index.html" class="font-display font-bold text-2xl tracking-tight z-10 flex items-center gap-3 shrink-0">
+        <img src="imagens/logogeo.png" alt="Logo GM" class="h-9 w-auto object-contain">
+        <span class="text-zinc-900 dark:text-white">Geovani</span><span class="text-accent">Matos</span>
+      </a>
+      <ul class="hidden md:flex items-center gap-8 text-sm font-medium md:ml-12 md:mr-auto" role="list">
+        <li><a href="index.html#experiencia" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Experiência</a></li>
+        <li><a href="index.html#skills" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Habilidades</a></li>
+        <li><a href="index.html#formacao" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Formação</a></li>
+        <li><a href="index.html#sobre" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Sobre</a></li>
+        <li><a href="index.html#contato" class="nav-link text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors">Contato</a></li>
+      </ul>
+      <div class="flex items-center gap-3 shrink-0">
+        <button @click="dark=!dark" class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" :aria-label="dark?'Light mode':'Dark mode'">
+          <svg x-show="!dark" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+          <svg x-show="dark" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+        </button>
+        <a href="index.html#contato" class="hidden md:inline-flex items-center gap-2 btn-primary bg-accent text-zinc-950 text-sm font-semibold px-5 py-2 rounded-full hover:bg-accent-light transition-colors">Fale comigo</a>
+        <button @click="mobileMenu=!mobileMenu" class="md:hidden w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800" aria-label="Toggle menu">
+          <svg x-show="!mobileMenu" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          <svg x-show="mobileMenu" xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- CABEÇALHO DO ARTIGO -->
+    <article>
+      <header class="pt-32 pb-12 max-w-3xl mx-auto px-6">
+        <a href="blog.html" class="inline-flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors mb-8">
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
+          Voltar para o blog
+        </a>
+
+        <div class="flex items-center gap-3 mb-5">
+          <span class="text-xs bg-zinc-100 dark:bg-zinc-800 text-accent border border-zinc-200 dark:border-zinc-700 px-2.5 py-1 rounded-full font-medium">Segurança</span>
+          <span class="text-xs text-zinc-400">Tempo de leitura: 6 min</span>
+        </div>
+
+        <h1 class="font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white leading-tight mb-6">Plano de Continuidade de Negócios (BCP): Como blindar a operação corporativa contra crises e indisponibilidades</h1>
+
+        <p class="text-xl text-zinc-500 dark:text-zinc-400 leading-relaxed mb-8">Garantir a resiliência dos ativos tecnológicos não é apenas uma obrigação técnica, mas um pilar estratégico que dita a sobrevivência do negócio em momentos de disrupção extrema.</p>
+
+        <!-- Autor do Post (Geovani) -->
+        <div class="flex items-center gap-4 py-6 border-t border-b border-zinc-100 dark:border-zinc-900">
+          <div class="photo-frame w-12 h-12 rounded-full shrink-0">
+            <img src="imagens/Geo2.jpeg" alt="Geovani de Matos" loading="lazy"/>
+          </div>
+          <div>
+            <p class="font-medium text-zinc-900 dark:text-white text-sm">Geovani de Matos Gonçalves</p>
+            <p class="text-xs text-zinc-500">Especialista em Governança, CISO e Gestão de TI</p>
+          </div>
+        </div>
+      </header>
+
+      <!-- Imagem Principal -->
+      <div class="max-w-4xl mx-auto px-6 mb-12">
+        <div class="photo-frame w-full h-72 md:h-96 rounded-2xl">
+          <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1200&q=80" alt="Datacenter e segurança de dados" loading="lazy"/>
+        </div>
+      </div>
+
+      <!-- Conteúdo Técnico do Artigo -->
+      <div class="max-w-3xl mx-auto px-6 pb-16 prose-article">
+
+        <h2>O impacto real da falta de planejamento</h2>
+        <p>No cenário corporativo moderno, a infraestrutura de TI deixou de ser um setor de suporte para se tornar o coração operacional das organizações. Quando um sistema crítico cai, a empresa inteira para. O prejuízo não é medido apenas em horas de ócio, mas sim em quebras de SLA, multas regulatórias e danos severos à reputação da marca.</p>
+        <p>Desenvolver um Plano de Continuidade de Negócios (BCP) robusto exige mapear minuciosamente os ativos e entender quais engrenagens precisam continuar rodando caso o pior aconteça (ataques de ransomware, falhas físicas de hardware ou desastres ambientais).</p>
+
+        <blockquote>
+          <p>"Um BCP de excelência não prevê o fim das crises, mas garante que a empresa permaneça de pé e faturando enquanto elas durarem."</p>
+        </blockquote>
+
+        <h2>Pilares de uma Infraestrutura Resiliente</h2>
+        <p>A segurança da informação e a alta disponibilidade andam lado a lado. Ao longo da minha trajetória liderando arquiteturas de redes e servidores, consolidei quatro pilares mandatórios para ambientes corporativos seguros:</p>
+        <ul>
+          <li><strong>Políticas Rígidas de Backup:</strong> Implementação da regra 3-2-1 (três cópias dos dados, em duas mídias diferentes, sendo uma cópia armazenada off-site ou em nuvem imutável).</li>
+          <li><strong>Redundância Ativa de Links:</strong> Failover automatizado em camadas de borda com roteamento dinâmico para eliminar pontos únicos de falha de conectividade.</li>
+          <li><strong>Virtualização Isolada:</strong> Uso de hypervisors corporativos (como Proxmox e VMware) segmentando serviços críticos em containers robustos, facilitando snapshots rápidos e migrações em tempo real.</li>
+          <li><strong>Governança de Fornecedores:</strong> Controle estrito sobre o backlog e contratos de terceiros que sustentam sistemas de ERP e canais de investimentos, garantindo tempos de resposta imediatos.</li>
+        </ul>
+
+        <h2>Estudo de Caso Prático: Resposta Imediata à Pandemia em 2020</h2>
+        <p>A maior prova de eficácia de uma governança tecnológica robusta acontece sob estresse severo. Graças a um planejamento de arquitetura finalizado em janeiro de 2020, foi possível migrar um ambiente corporativo inteiro para o modelo 100% home office de forma imediata no dia 12/03/2020.</p>
+        <p>A transição foi realizada com <strong>R$ 0 de investimento emergencial adicional</strong>, sem nenhuma interrupção operacional para os clientes e sem aumentar a exposição a riscos cibernéticos ou violações de dados, sustentando as operações com alta segurança durante os anos seguintes.</p>
+
+        <h2>Conclusão e Recomendações</h2>
+        <p>Investir em conformidade (como as normas ISO 27001 e LGPD) e auditoria preventiva em tecnologia não deve ser visto como um gasto extra pelas diretorias executivas, mas sim como uma apólice de seguro indispensável. Revisar os planos de recuperação de desastres semestralmente é o que separa as marcas que sobrevivem no mercado daquelas que entram em colapso.</p>
+
+      </div>
+    </article>
+
+    <!-- ARTIGOS RELACIONADOS -->
+    <section class="bg-zinc-50 dark:bg-zinc-900/50 py-16">
+      <div class="max-w-6xl mx-auto px-6">
+        <h2 class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-8">Leia também</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+
+          <article class="reveal card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
+            <div class="photo-frame w-full h-40">
+              <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=700&q=80" alt="Governança COBIT" loading="lazy"/>
+            </div>
+            <div class="p-5">
+              <span class="text-xs text-zinc-400 mb-2 block">Frameworks · Governança</span>
+              <h3 class="font-display font-bold text-base text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">Alinhando o COBIT 2019 aos Objetivos de Negócios</h3>
+            </div>
+          </article>
+
+          <article class="reveal card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
+            <div class="photo-frame w-full h-40">
+              <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=700&q=80" alt="Cybersecurity" loading="lazy"/>
+            </div>
+            <div class="p-5">
+              <span class="text-xs text-zinc-400 mb-2 block">Compliance · Proteção de Dados</span>
+              <h3 class="font-display font-bold text-base text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">Mapeamento de Dados e Mitigação de Riscos na ANPD</h3>
+            </div>
+          </article>
+
+          <article class="reveal card group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent transition-colors">
+            <div class="photo-frame w-full h-40">
+              <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=700&q=80" alt="Cloud M&A" loading="lazy"/>
+            </div>
+            <div class="p-5">
+              <span class="text-xs text-zinc-400 mb-2 block">Infraestrutura · Cloud</span>
+              <h3 class="font-display font-bold text-base text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">Migração Crítica de Tenants em Processos de M&A</h3>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER MINIMALISTA PREMIUM COMERCIAL -->
+  <footer class="border-t border-zinc-100 dark:border-zinc-900 bg-white dark:bg-zinc-950 transition-colors">
+    <div class="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-center sm:text-left">
+        <a href="index.html" class="font-display font-bold text-lg tracking-tight shrink-0">
+          <span class="text-zinc-900 dark:text-white">geovani.</span><span class="text-accent">tech</span>
+        </a>
+        <div class="hidden sm:block w-px h-4 bg-zinc-200 dark:bg-zinc-800"></div>
+        <p class="text-xs text-zinc-400 font-light">
+          © <span id="yr"></span> Geovani de Matos Gonçalves. Todos os direitos reservados.
+        </p>
+      </div>
+
+      <div class="flex flex-col sm:flex-row items-center gap-6 text-xs text-zinc-400">
+        <div class="flex items-center gap-5">
+          <a href="https://linkedin.com/in/geovani-matos" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">LinkedIn</a>
+          <a href="mailto:g@dematosgoncalves.com" class="hover:text-accent transition-colors">E-mail</a>
+          <a href="https://wa.me/5511950606730" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">WhatsApp</a>
+        </div>
+        <div class="hidden sm:block w-px h-4 bg-zinc-200 dark:bg-zinc-800"></div>
+        <p class="text-zinc-500 font-light">
+          Proudly built by <a href="#" class="font-medium text-zinc-400 hover:text-accent transition-colors">Sua Marca</a>
+        </p>
+      </div>
+
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target);} });
+    },{threshold:.1,rootMargin:'0px 0px -40px 0px'});
+    document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+  </script>
+
+</body>
+</html>

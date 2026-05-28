@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="pt-br" x-data="app()" :class="{'dark':dark}" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Geovani de Matos Gonçalves — Gerente de TI, CISO e Especialista em Governança e Segurança da Informação.">
+<meta name="keywords" content="Gerente de TI, CISO, Segurança da Informação, Governança, Compliance, LGPD, Infraestrutura de Redes, Portfólio">
+<meta name="author" content="Geovani de Matos Gonçalves">
+<meta property="og:title" content="Geovani de Matos Gonçalves — IT Manager & Security Expert">
+<meta property="og:description" content="Liderança executiva em tecnologia, gestão de riscos regulatórios, continuidade de negócios e segurança cibernética.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dematosgoncalves.com">
+<title>Geovani Matos | IT Manager & Security Expert</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: { display: ['PT Sans','sans-serif'], body: ['DM Sans','sans-serif'] },
+      // Configuração da sua nova identidade visual baseada no verde #6de627
+      colors: { accent: '#6de627', 'accent-light': '#8bf051', 'accent-dark': '#55b81d' }
+    }
+  }
+}
+</script>
+
+<style>
+*,*::before,*::after{box-sizing:border-box}
+html,body{font-family:'DM Sans',sans-serif}
+h1,h2,h3,h4,h5,h6{font-family:'PT Sans',sans-serif}
+body{transition:background-color .3s,color .3s}
+
+/* noise overlay */
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E")}
+
+/* scrollbar */
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-track{background:transparent}
+/* Barra de rolagem acompanhando a nova cor verde */
+::-webkit-scrollbar-thumb{background:#6de627;border-radius:99px}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .6s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.4,0,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}.d4{transition-delay:.32s}
+
+/* nav underline animation */
+.nl{position:relative}
+.nl::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:currentColor;transition:width .22s cubic-bezier(.4,0,.2,1)}
+.nl:hover::after,.nl.on::after{width:100%}
+.nl.on{font-weight:500}
+
+/* shimmer button */
+.shimmer{position:relative;overflow:hidden}
+.shimmer::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:rgba(255,255,255,.18);transform:skewX(-20deg);transition:left .4s cubic-bezier(.4,0,.2,1)}
+.shimmer:hover::after{left:160%}
+
+/* photo frames */
+.pf{overflow:hidden;background:#d4d4d8}
+.pf img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* card hover */
+.card-h{transition:transform .28s cubic-bezier(.4,0,.2,1),border-color .18s}
+.card-h:hover{transform:translateY(-4px)}
+
+/* skill tag */
+.stag{transition:border-color .18s}
+
+[x-cloak]{display:none!important}
+</style>
+</head>
+<body class="bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-100 antialiased">
+
+<!-- ═══ NAV ═══ -->
+<header class="fixed inset-x-0 top-0 z-50 transition-all duration-300"
+  :class="sc?'bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md shadow-sm shadow-black/5':''">
+  <nav class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between" aria-label="Main navigation">
+
+    <!-- Logo adaptada para o seu nome com o novo destaque verde -->
+   <a href="#hero" class="font-display font-bold text-2xl tracking-tight relative z-10 flex items-center gap-3">
+  <!-- O ícone gerado pela IA (Aumentado de h-7 para h-9) -->
+  <img src="imagens/logogeo.png" alt="Logo GM" class="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+  
+  <!-- O texto do lado (Aumentado de text-xl para text-2xl) -->
+  <span class="text-zinc-900 dark:text-white">Geovani</span><span class="text-accent">Matos</span>
+</a>
+
+    <!-- Menu desktop traduzido e alinhado ao seu escopo profissional -->
+    <ul class="hidden md:flex items-center gap-8 text-sm" role="list">
+      <li><a href="#experiencia" class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='experiencia'?'on !text-zinc-900 dark:!text-white':''">Experiência</a></li>
+      <li><a href="#skills"      class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='skills'?'on !text-zinc-900 dark:!text-white':''">Habilidades</a></li>
+      <li><a href="#formacao"    class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='formacao'?'on !text-zinc-900 dark:!text-white':''">Formação</a></li>
+      <li><a href="#sobre"       class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='sobre'?'on !text-zinc-900 dark:!text-white':''">Sobre</a></li>
+      <li><a href="#contato"     class="nl text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white transition-colors" :class="s==='contato'?'on !text-zinc-900 dark:!text-white':''">Contato</a></li>
+    </ul>
+
+    <div class="flex items-center gap-3">
+      <!-- dark toggle -->
+      <button @click="dark=!dark" class="w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-100 dark:hover:bg-zinc-900 transition-colors" :aria-label="dark?'Light mode':'Dark mode'">
+        <svg x-show="!dark" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg x-show="dark"  class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+      </button>
+      
+      <!-- Botão de ação adaptado para Contato / Proposta -->
+      <a href="#contato" class="hidden md:inline-flex items-center gap-2 shimmer bg-accent text-zinc-950 text-sm font-semibold px-5 py-2 rounded-full hover:bg-accent-light transition-colors">
+        Fale comigo <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+      
+      <!-- hamburger -->
+      <button @click="mm=!mm" class="md:hidden w-9 h-9 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800" :aria-expanded="mm" aria-label="Toggle menu">
+        <svg x-show="!mm" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg x-show="mm"  class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </nav>
+
+  <!-- menu mobile traduzido e sincronizado com os links de cima -->
+  <div x-show="mm" x-cloak
+    x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0"
+    x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2"
+    class="md:hidden bg-white dark:bg-zinc-950 border-t border-zinc-100 dark:border-zinc-900">
+    <ul class="flex flex-col px-6 py-5 gap-4 text-sm font-medium" role="list">
+      <li><a href="#experiencia" @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Experiência</a></li>
+      <li><a href="#skills"      @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Habilidades</a></li>
+      <li><a href="#formacao"    @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Formação</a></li>
+      <li><a href="#sobre"       @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Sobre</a></li>
+      <li><a href="#contato"     @click="mm=false" class="block text-zinc-700 dark:text-zinc-300 hover:text-accent transition-colors">Contato</a></li>
+      <li class="pt-2 border-t border-zinc-100 dark:border-zinc-900">
+        <a href="#contato" @click="mm=false" class="inline-flex shimmer bg-accent text-zinc-950 font-semibold text-sm px-5 py-2.5 rounded-full">Fale comigo →</a>
+      </li>
+    </ul>
+  </div>
+</header>
+
+<main>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero" class="relative min-h-screen flex items-center pt-16 overflow-hidden">
+  <div class="absolute top-1/4 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+  <div class="absolute bottom-1/4 left-0 w-64 h-64 bg-zinc-200/50 dark:bg-zinc-800/30 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-6 py-24 w-full">
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+
+      <div>
+        <!-- Status profissional adaptado -->
+        <p class="reveal text-sm font-medium text-accent tracking-widest uppercase mb-4">Disponível para Projetos e Consultorias</p>
+        <h1 class="reveal d1 font-display font-bold text-4xl md:text-5xl lg:text-6xl leading-[1.05] tracking-tight text-zinc-900 dark:text-white mb-6">
+          Olá, eu sou <span class="text-accent">Geovani Matos</span>
+        </h1>
+        <!-- Descrição focada em Governança, CISO e Gestão de TI -->
+        <p class="reveal d2 text-lg text-zinc-500 dark:text-zinc-400 font-light leading-relaxed max-w-md mb-10">
+          Especialista em <strong class="font-medium text-zinc-700 dark:text-zinc-300">Governança, CISO e Gestão de TI</strong>. Lidero projetos complexos de infraestrutura, segurança cibernética e adequação regulatória focados em continuidade de negócios.
+        </p>
+        <!-- Links de ações traduzidos e com âncoras corrigidas -->
+        <div class="reveal d3 flex flex-wrap gap-4">
+          <a href="#experiencia" class="shimmer inline-flex items-center gap-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 font-medium px-7 py-3.5 rounded-full hover:bg-zinc-700 dark:hover:bg-zinc-200 transition-colors text-sm">
+            Ver trajetória
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </a>
+          <a href="#contato" class="inline-flex items-center gap-2 border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-medium px-7 py-3.5 rounded-full hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors text-sm">Entre em contato</a>
+        </div>
+        <!-- Estatísticas estratégicas baseadas na sua carreira -->
+        <div class="reveal d4 flex gap-8 mt-14 pt-8 border-t border-zinc-100 dark:border-zinc-900">
+          <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">10y+</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">De Experiência</p></div>
+          <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">R$ 0</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Investimento Extra em Crises</p></div>
+          <div><p class="font-display font-bold text-3xl text-zinc-900 dark:text-white">100%</p><p class="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Disponibilidade Operacional</p></div>
+        </div>
+      </div>
+
+      <!-- Lado direito: Frame para sua foto de perfil (CORRIGIDO) -->
+      <div class="reveal d2 flex justify-center md:justify-end">
+        <!-- Mantemos a div pai relativa com os tamanhos máximos ampliados -->
+        <div class="relative w-full max-w-md md:h-[480px] aspect-square">
+          
+          <!-- Container da foto adaptado sem quebrar o posicionamento absoluto -->
+          <div class="pf w-full h-full rounded-3xl shadow-xl">
+            <img src="imagens/Geo2.jpeg" alt="Geovani de Matos" loading="lazy">
+          </div>
+          
+          <!-- Badge flutuando perfeitamente no canto inferior esquerdo externo da imagem -->
+          <div class="absolute -bottom-4 -left-4 bg-accent text-zinc-950 font-display font-bold text-xs px-4 py-2.5 rounded-2xl shadow-lg z-10">
+            Foco em Compliance & Segurança
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ═══ -->
+<section id="skills" class="py-24 bg-zinc-50 dark:bg-zinc-900/40">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="mb-14">
+      <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Especialidades</p>
+      <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Áreas de Atuação</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <!-- Card 1: Governança & Compliance -->
+      <article class="reveal d1 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+        <div class="w-12 h-12 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
+          <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Governança & Compliance</h3>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Modelagem de processos e adequação rigorosa para conformidade com normas reguladoras do mercado financeiro (CVM, ANBIMA, B3), proteção de dados (LGPD) e padrões globais como as ISOs 27001 e 27701[cite: 1].</p>
+      </article>
+
+      <!-- Card 2: Segurança da Informação (CORRIGIDO PARA RESPONDER AO TEMA CLARO/ESCURO) -->
+      <article class="reveal d2 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+        <div class="w-12 h-12 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
+          <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Segurança Cibernética & CISO</h3>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Gestão e mitigação de riscos corporativos focados em segurança da informação[cite: 1]. Desenvolvimento e auditoria de planos de continuidade de negócios e resposta a incidentes críticos baseados em perícia digital e computação forense[cite: 1].</p>
+      </article>
+
+      <!-- Card 3: Gestão de Projetos & TI -->
+      <article class="reveal d3 card-h group bg-white dark:bg-zinc-900 rounded-2xl p-8 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+        <div class="w-12 h-12 flex items-center justify-center bg-zinc-100 dark:bg-zinc-800 rounded-xl mb-6 group-hover:bg-accent/10 transition-colors">
+          <!-- Ícone de infraestrutura/gráfico/projetos -->
+          <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-3">Gestão de Projetos & TI</h3>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">Liderança de projetos de alta complexidade em infraestrutura corporativa[cite: 1]. Especialista em migrações críticas de nuvem híbrida (AWS, Google Workspace e Microsoft 365), implantação de ERP/CRM e gestão orçamentária ágil (Scrum/PMBOK)[cite: 1].</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WORK ═══ -->
+<section id="experiencia" class="py-24">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14">
+      <div>
+        <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Trajetória</p>
+        <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Experiência Profissional</h2>
+      </div>
+      <!-- Link mantido caso você queira linkar para um currículo em PDF futuramente -->
+      <a href="Geovani.pdf" target="_blank" class="reveal d1 text-sm font-medium text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors self-start sm:self-auto nl">Baixar Currículo Completo (PDF) →</a>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+
+      <!-- Bloco de Destaque (Lado Esquerdo): CTO / CISO na Itajuí -->
+      <article class="card-h reveal d1 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent md:row-span-2">
+        <div class="pf w-full h-64 md:h-80">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&q=80" alt="Gestão de TI e Segurança" loading="lazy">
+        </div>
+        <div class="p-7">
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 px-3 py-1 rounded-full font-medium">C-Level</span>
+            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">Mercado Financeiro</span>
+            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">ISO 27001 / 27701</span>
+          </div>
+          <h3 class="font-display font-bold text-2xl text-zinc-900 dark:text-white mb-2">CTO / CISO</h3>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 font-medium mb-3">Itajuí Gestão de Patrimônio — 01/2020 a 02/2024</p>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-5">
+            Responsável direto pelas adequações de conformidade com normas das reguladoras do mercado financeiro, normas ISO e LGPD[cite: 1]. Criação, manutenção e testes de planos de continuidade de negócios e gestão de riscos relacionados aos ativos de tecnologia[cite: 1].<br><br>
+            <strong>Destaque de Liderança:</strong> Graças à estruturação de um ambiente tecnológico robusto finalizado em janeiro de 2020, foi possível migrar o modelo de trabalho da companhia para 100% remoto de forma imediata no dia 12/03/2020 devido à pandemia de COVID-19[cite: 1]. A transição ocorreu com R$ 0 de investimento adicional, sem interrupções operacionais e sem aumento de exposição a riscos, sustentando o crescimento e novas contratações da empresa por quase dois anos[cite: 1].<br><br>
+            Atuou também na gestão de processos corporativos, implantação de ferramentas de automação e controle do centro de custo de tecnologia através de previsão orçamentária estratégica[cite: 1]. Projetos gerenciados sob as melhores práticas do PMBOK utilizando ferramentas como Jira, Trello, Artia e MS Project[cite: 1].
+          </p>
+        </div>
+      </article>
+
+      <!-- Bloco Superior Direito: Governança e Segurança na Portofino -->
+      <article class="card-h reveal d2 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+        <div class="pf w-full h-48">
+          <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=800&q=80" alt="Governança Corporativa e Fusões" loading="lazy">
+        </div>
+        <div class="p-6">
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 px-3 py-1 rounded-full font-medium">Governança</span>
+            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">M&A / Migrações Cloud</span>
+          </div>
+          <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-1">Governança e Segurança da Informação</h3>
+          <p class="text-xs text-zinc-400 mb-2">Portofino Multi Family Office — 02/2024 a Atual</p>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+            Atuação na análise de estrutura organizacional e documentação de processos para conformidade regulatória (ANBIMA, CVM, B3, ANPD/LGPD e ISOs 27001/27701) visando mitigar riscos operacionais[cite: 1]. Atuou como Gerente do Projeto de Migração de Tenant Microsoft 365 para ambiente Google Workspace e AWS durante o processo de aquisição da Itajuí[cite: 1].
+          </p>
+        </div>
+      </article>
+
+      <!-- Bloco Inferior Direito: Gerente de TI na Itajuí -->
+      <article class="card-h reveal d3 group rounded-2xl overflow-hidden bg-zinc-100 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 hover:border-accent">
+        <div class="pf w-full h-48">
+          <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80" alt="Gerenciamento de Serviços de TI" loading="lazy">
+        </div>
+        <div class="p-6">
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-800 dark:text-zinc-300 px-3 py-1 rounded-full font-medium">Gestão de TI</span>
+            <span class="text-xs bg-zinc-200 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-3 py-1 rounded-full">KPIs & SLA</span>
+          </div>
+          <h3 class="font-display font-bold text-xl text-zinc-900 dark:text-white mb-1">Gerente de TI</h3>
+          <p class="text-xs text-zinc-400 mb-2">Itajuí Gestão de Patrimônio — 10/2018 a 12/2019</p>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+            Monitoramento e gerenciamento de chamados de suporte de TI com foco em níveis de serviço acordados (SLA)[cite: 1]. Desenvolveu internamente sistema de supervisão de indicadores (KPIs) para mensurar a eficiência da equipe e atuou na gestão do backlog de fornecedores de sistemas críticos de ERP e investimentos[cite: 1].
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="sobre" class="py-24 bg-zinc-50 dark:bg-zinc-900/40">
+  <div class="max-w-6xl mx-auto px-6">
+    <!-- Ajustado o gap de 16 para 12 para aproximar os elementos maiores de forma harmônica -->
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+
+      <!-- Lado Esquerdo: Imagem Ampliada -->
+      <div class="reveal order-2 md:order-1 w-full">
+        <!-- ALTERADO: max-w-sm mudou para max-w-md (aumentando a largura máxima da foto para ~448px) e adicionado md:h-[480px] para dar mais corpo vertical -->
+        <div class="pf w-full aspect-square max-w-md mx-auto md:h-[480px] rounded-3xl shadow-xl">
+          <img src="imagens/Geo2.jpeg" alt="Geovani de Matos" loading="lazy">
+        </div>
+      </div>
+
+      <!-- Lado Direito: Texto de Perfil Profissional -->
+      <div class="order-1 md:order-2">
+        <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Sobre mim</p>
+        <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white leading-tight mb-6">Trajetória e<br>Visão Estratégica</h2>
+        <p class="reveal d2 text-zinc-500 dark:text-zinc-400 text-base leading-relaxed mb-4">
+          Sou o Geovani de Matos Gonçalves, profissional sênior com ampla bagagem em segurança da informação, governança e infraestrutura corporativa[cite: 1]. Atuo alinhando os ativos tecnológicos aos objetivos estratégicos do negócio, mitigando riscos regulatórios internacionais e locais junto a órgãos como CVM, ANBIMA e ANPD[cite: 1].
+        </p>
+        <p class="reveal d3 text-zinc-500 dark:text-zinc-400 text-base leading-relaxed mb-8">
+          Acredito que a segurança de excelência é aquela que apoia a continuidade e o crescimento escalável das operações, blindando o ambiente corporativo sem engessá-lo[cite: 1]. Minha liderança é pautada por processos transparentes, planejamento orçamentário rigoroso e rápida resposta a incidentes críticos[cite: 1].
+        </p>
+        
+        <!-- Stack Técnica e Frameworks Executivos -->
+        <div class="reveal d4">
+          <p class="text-xs font-medium text-zinc-500 dark:text-zinc-400 uppercase tracking-widest mb-3">Frameworks, Ferramentas &amp; Competências</p>
+          <div class="flex flex-wrap gap-2" role="list" aria-label="Skills">
+            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Segurança da Informação</span>
+            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">LGPD Compliance</span>
+            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">ISO 27001 &amp; 27701</span>
+            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">COBIT 2019 &amp; ITIL 4</span>
+            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Gestão de Projetos (PMBOK)</span>
+            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Forense Digital</span>
+            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Redes de Computadores</span>
+            <span role="listitem" class="stag text-sm bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 px-3.5 py-1.5 rounded-full hover:border-accent">Cloud (AWS / Google / M365)</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SEÇÃO FORMAÇÃO E CERTIFICAÇÕES -->
+<section id="formacao" class="py-24">
+  <div class="max-w-6xl mx-auto px-6">
+    
+    <!-- Cabeçalho da Seção -->
+    <div class="mb-14">
+      <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Qualificações</p>
+      <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Formação & Certificações</h2>
+    </div>
+
+    <!-- Grid Principal: Duas colunas em telas médias/grandes -->
+    <div class="grid md:grid-cols-2 gap-12 items-start">
+      
+      <!-- COLUNA 1: FORMAÇÃO ACADÊMICA -->
+      <div class="space-y-8">
+        <h3 class="reveal font-display font-bold text-2xl text-zinc-900 dark:text-white flex items-center gap-3 mb-6">
+          <!-- Ícone de chapéu de formatura -->
+          <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2v-7"/></svg>
+          Educação Executiva & Acadêmica
+        </h3>
+
+        <!-- Card: MBA Trevisan -->
+        <div class="reveal d1 p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-100 dark:border-zinc-800/60">
+          <span class="text-xs font-semibold text-accent uppercase tracking-wider">Pós-Graduação</span>
+          <h4 class="font-display font-bold text-lg text-zinc-900 dark:text-white mt-1">MBA em Gestão Estratégica de Negócios</h4>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">Trevisan Escola Superior de Negócios[cite: 1]</p>
+        </div>
+
+        <!-- Card: Poli USP -->
+        <div class="reveal d2 p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-100 dark:border-zinc-800/60">
+          <span class="text-xs font-semibold text-accent uppercase tracking-wider">Pós-Graduação</span>
+          <h4 class="font-display font-bold text-lg text-zinc-900 dark:text-white mt-1">Gestão de Projetos (Lato Sensu)</h4>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">Escola Politécnica da Universidade de São Paulo - USP[cite: 1]</p>
+        </div>
+
+        <!-- Card: IPOG -->
+        <div class="reveal d3 p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-100 dark:border-zinc-800/60">
+          <span class="text-xs font-semibold text-accent uppercase tracking-wider">MBA &amp; Especialização</span>
+          <h4 class="font-display font-bold text-lg text-zinc-900 dark:text-white mt-1">Tecnologia, Governança e Transformação Digital</h4>
+          <h5 class="font-display text-sm text-zinc-700 dark:text-zinc-300 mt-2 font-medium">Computação Forense e Perícia Digital</h5>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">IPOG - Instituto de Pós-Graduação e Graduação[cite: 1]</p>
+        </div>
+
+        <!-- Card: Impacta -->
+        <div class="reveal d4 p-6 bg-zinc-50 dark:bg-zinc-900/50 rounded-2xl border border-zinc-100 dark:border-zinc-800/60">
+          <span class="text-xs font-semibold text-accent uppercase tracking-wider">Graduação</span>
+          <h4 class="font-display font-bold text-lg text-zinc-900 dark:text-white mt-1">Bacharelado em Redes de Computadores</h4>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">Faculdade Impacta de Tecnologia[cite: 1]</p>
+        </div>
+      </div>
+
+      <!-- COLUNA 2: CERTIFICAÇÕES INTERNACIONAIS -->
+      <div class="space-y-6">
+        <h3 class="reveal font-display font-bold text-2xl text-zinc-900 dark:text-white flex items-center gap-3 mb-6">
+          <!-- Ícone de medalha/selo -->
+          <svg class="w-6 h-6 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+          Certificações de Destaque
+        </h3>
+
+        <!-- Lista Estilizada de Certificações -->
+        <div class="grid gap-4">
+          
+          <div class="reveal d1 flex items-start gap-4 p-5 bg-zinc-50 dark:bg-zinc-900/30 rounded-xl border border-zinc-100 dark:border-zinc-800/40">
+            <div class="w-2 h-2 rounded-full bg-accent mt-2 shrink-0"></div>
+            <div>
+              <p class="font-medium text-zinc-900 dark:text-white">COBIT 2019 &amp; ITIL 4 Foundation</p>
+              <p class="text-xs text-zinc-400 mt-0.5">Governança e Gerenciamento de Serviços de TI[cite: 1]</p>
+            </div>
+          </div>
+
+          <div class="reveal d2 flex items-start gap-4 p-5 bg-zinc-50 dark:bg-zinc-900/30 rounded-xl border border-zinc-100 dark:border-zinc-800/40">
+            <div class="w-2 h-2 rounded-full bg-accent mt-2 shrink-0"></div>
+            <div>
+              <p class="font-medium text-zinc-900 dark:text-white">Scrum Foundation Professional Certificate (SFPC)</p>
+              <p class="text-xs text-zinc-400 mt-0.5">Certiprof — Frameworks Ágeis[cite: 1]</p>
+            </div>
+          </div>
+
+          <div class="reveal d3 flex items-start gap-4 p-5 bg-zinc-50 dark:bg-zinc-900/30 rounded-xl border border-zinc-100 dark:border-zinc-800/40">
+            <div class="w-2 h-2 rounded-full bg-accent mt-2 shrink-0"></div>
+            <div>
+              <p class="font-medium text-zinc-900 dark:text-white">Certified Network Security Specialist (CNSS)</p>
+              <p class="text-xs text-zinc-400 mt-0.5">ICSI — Segurança de Infraestrutura e Redes[cite: 1]</p>
+            </div>
+          </div>
+
+          <div class="reveal d4 flex items-start gap-4 p-5 bg-zinc-50 dark:bg-zinc-900/30 rounded-xl border border-zinc-100 dark:border-zinc-800/40">
+            <div class="w-2 h-2 rounded-full bg-accent mt-2 shrink-0"></div>
+            <div>
+              <p class="font-medium text-zinc-900 dark:text-white">Privacy and Data Protection Foundation (PDPF)</p>
+              <p class="text-xs text-zinc-400 mt-0.5">PMG Academy — Lei Geral de Proteção de Dados (LGPD)[cite: 1]</p>
+            </div>
+          </div>
+
+          <div class="reveal d5 flex items-start gap-4 p-5 bg-zinc-50 dark:bg-zinc-900/30 rounded-xl border border-zinc-100 dark:border-zinc-800/40">
+            <div class="w-2 h-2 rounded-full bg-accent mt-2 shrink-0"></div>
+            <div>
+              <p class="font-medium text-zinc-900 dark:text-white">Auditoria em TI &amp; Perícia Forense Computacional</p>
+              <p class="text-xs text-zinc-400 mt-0.5">Universidade Cruzeiro do Sul — Formação Continuada[cite: 1]</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═══ -->
+<!-- <section id="reviews" class="py-24">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="mb-14">
+      <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Social proof</p>
+      <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">What clients say</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <blockquote class="reveal d1 bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-7 border border-zinc-100 dark:border-zinc-800">
+        <div class="flex gap-0.5 mb-5" aria-label="5 stars">
+          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-6 italic">"Eliott delivered our redesign in record time and the quality blew us away. Our conversion rate jumped 28% in the first month. Absolutely recommend."</p>
+        <footer class="flex items-center gap-3">
+          <div class="pf w-10 h-10 rounded-full shrink-0"><img src="https://i.pravatar.cc/80?img=11" alt="Sarah Müller" loading="lazy"></div>
+          <div>
+            <p class="font-medium text-sm text-zinc-900 dark:text-white">Sarah Müller</p>
+            <p class="text-xs text-zinc-500">CPO, Novu</p>
+          </div>
+        </footer>
+      </blockquote>
+
+      <blockquote class="reveal d2 bg-zinc-900 dark:bg-zinc-800 rounded-2xl p-7 border border-zinc-800">
+        <div class="flex gap-0.5 mb-5" aria-label="5 stars">
+          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="text-zinc-400 text-sm leading-relaxed mb-6 italic">"Working with Eliott is a dream. He asks the right questions, moves fast, and the final result always exceeds what we imagined. Our best hire of 2024."</p>
+        <footer class="flex items-center gap-3">
+          <div class="pf w-10 h-10 rounded-full shrink-0"><img src="https://i.pravatar.cc/80?img=52" alt="Thomas Renault" loading="lazy"></div>
+          <div>
+            <p class="font-medium text-sm text-white">Thomas Renault</p>
+            <p class="text-xs text-zinc-500">Founder, Finlo</p>
+          </div>
+        </footer>
+      </blockquote>
+
+      <blockquote class="reveal d3 bg-zinc-50 dark:bg-zinc-900 rounded-2xl p-7 border border-zinc-100 dark:border-zinc-800">
+        <div class="flex gap-0.5 mb-5" aria-label="5 stars">
+          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed mb-6 italic">"We had a tight deadline and a vague brief. Eliott turned both into a polished site in under two weeks. Clean code, zero hand-holding needed."</p>
+        <footer class="flex items-center gap-3">
+          <div class="pf w-10 h-10 rounded-full shrink-0"><img src="https://i.pravatar.cc/80?img=47" alt="Camille Dufresne" loading="lazy"></div>
+          <div>
+            <p class="font-medium text-sm text-zinc-900 dark:text-white">Camille Dufresne</p>
+            <p class="text-xs text-zinc-500">Creative Director, Orea</p>
+          </div>
+        </footer>
+      </blockquote>
+
+    </div>
+  </div>
+</section> -->
+
+<!-- ═══ BLOG ═══ -->
+<section id="eventos" class="py-24 bg-zinc-50 dark:bg-zinc-900/40" 
+         x-data="{ activeCard: 0, totalCards: 3 }">
+  <div class="max-w-6xl mx-auto px-6">
+    
+    <!-- Cabeçalho da Seção com Botões do Carrossel à Direita -->
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-14">
+      <div>
+        <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Conexões &amp; Atualizações</p>
+        <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-zinc-900 dark:text-white">Eventos &amp; Imersões Tech</h2>
+      </div>
+      
+      <!-- Controles do Carrossel (Aparecem apenas no Desktop ou telas maiores) -->
+      <div class="reveal d2 hidden md:flex items-center gap-2">
+        <button @click="activeCard = Math.max(0, activeCard - 1)"
+                :disabled="activeCard === 0"
+                :class="activeCard === 0 ? 'opacity-40 cursor-not-allowed' : 'hover:border-accent hover:text-accent'"
+                class="w-10 h-10 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 bg-white dark:bg-zinc-900 transition-colors"
+                aria-label="Slide anterior">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+        </button>
+        <button @click="activeCard = Math.min(totalCards - 1, activeCard + 1)"
+                :disabled="activeCard === totalCards - 1"
+                :class="activeCard === totalCards - 1 ? 'opacity-40 cursor-not-allowed' : 'hover:border-accent hover:text-accent'"
+                class="w-10 h-10 flex items-center justify-center rounded-full border border-zinc-200 dark:border-zinc-800 text-zinc-600 dark:text-zinc-400 bg-white dark:bg-zinc-900 transition-colors"
+                aria-label="Próximo slide">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Área de Exibição dos Cards (Overflow ocultado para o efeito de deslizar) -->
+    <div class="overflow-hidden w-full">
+      <div class="grid grid-flow-col auto-cols-[100%] md:auto-cols-[calc(33.333%-11px)] gap-6 transition-transform duration-500 ease-out"
+           :style="`transform: translateX(calc(-${activeCard * 100}% - ${activeCard * 24}px))`">
+
+        <!-- Card 1: Mind The Sec -->
+        <article class="reveal d1 card-h group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent flex flex-col h-full w-full">
+          <div class="pf w-full h-44">
+            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?w=700&q=80" alt="Conferência de Segurança da Informação" loading="lazy">
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-xs bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-2.5 py-1 rounded-full font-medium">Cybersecurity</span>
+              <span class="text-xs text-zinc-400">Conferência</span>
+            </div>
+            
+            <a href="blog-article.html">
+              <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">Conferência Mind The Sec</h3>
+            </a>
+            
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-6 flex-grow">Participação no maior evento corporativo de Segurança da Informação da América Latina, focado em tendências de defesa e cenários de ameaças.</p>
+            
+            <a href="blog-article.html" class="inline-flex items-center gap-1 text-xs font-semibold text-accent hover:text-accent-dark transition-colors mt-auto nl">
+              Ler artigo completo →
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 2: Modern PMO / LGPD (CONECTADO) -->
+        <article class="reveal d2 card-h group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent flex flex-col h-full w-full">
+          <div class="pf w-full h-44">
+            <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=700&q=80" alt="Gestão de Projetos e LGPD" loading="lazy">
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-xs bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-2.5 py-1 rounded-full font-medium">Gestão / Governança</span>
+              <span class="text-xs text-zinc-400">Congresso</span>
+            </div>
+            
+            <a href="blog-article.html">
+              <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-2 group-hover:text-accent transition-colors">Congresso TI - Modern PMO</h3>
+            </a>
+            
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-6 flex-grow">Imersão em estratégias de Escritório de Projetos moderno (PMO), governança ágil e alinhamento de entregas de TI às metas de negócios.</p>
+            
+            <a href="blog-article.html" class="inline-flex items-center gap-1 text-xs font-semibold text-accent hover:text-accent-dark transition-colors mt-auto nl">
+              Ler artigo completo →
+            </a>
+          </div>
+        </article>
+
+        <!-- Card 3: Forense e Resposta a Incidentes (CONECTADO) -->
+        <article class="reveal d3 card-h group bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-800 hover:border-accent flex flex-col h-full w-full">
+          <div class="pf w-full h-44">
+            <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=700&q=80" alt="Maratona Cyber Defense" loading="lazy">
+          </div>
+          <div class="p-6 flex flex-col flex-grow">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-xs bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-400 px-2.5 py-1 rounded-full font-medium">Defesa Cibernética</span>
+              <span class="text-xs text-zinc-400">Imersão</span>
+            </div>
+            
+            <a href="blog-article.html">
+              <h3 class="font-display font-bold text-lg text-zinc-900 dark:text-white mb-2 font-bold group-hover:text-accent transition-colors">Maratona Cyber Defense</h3>
+            </a>
+            
+            <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed mb-6 flex-grow">Maratona técnica voltada para táticas de resposta a incidentes críticos, mitigação de vulnerabilidades e preservação de cadeia de custódia.</p>
+            
+            <a href="blog-article.html" class="inline-flex items-center gap-1 text-xs font-semibold text-accent hover:text-accent-dark transition-colors mt-auto nl">
+              Ler artigo completo →
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- Indicadores de Paginação do Carrossel (Pontinhos na parte inferior) -->
+    <div class="flex items-center justify-center gap-2 mt-10">
+      <template x-for="(item, index) in totalCards" :key="index">
+        <button @click="activeCard = index"
+                :class="activeCard === index ? 'bg-accent w-6' : 'bg-zinc-300 dark:bg-zinc-700 w-2'"
+                class="h-2 rounded-full transition-all duration-300"
+                :aria-label="`Ir para o slide ${index + 1}`"></button>
+      </template>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contato" class="py-24">
+  <div class="max-w-6xl mx-auto px-6">
+    <!-- Caixa principal adaptada ao tema escuro/claro nativo do card corporativo -->
+    <div class="bg-zinc-900 dark:bg-zinc-800 rounded-3xl p-10 md:p-16 relative overflow-hidden shadow-2xl">
+      <div class="absolute top-0 right-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl pointer-events-none" aria-hidden="true"></div>
+      <div class="absolute bottom-0 left-0 w-40 h-40 bg-accent/5 rounded-full blur-2xl pointer-events-none" aria-hidden="true"></div>
+
+      <div class="relative z-10 grid md:grid-cols-2 gap-12 items-start">
+
+        <!-- LADO ESQUERDO: SEUS CANAIS DE CONTATO -->
+        <div>
+          <p class="reveal text-xs font-medium text-accent tracking-widest uppercase mb-3">Contato direto</p>
+          <h2 class="reveal d1 font-display font-bold text-4xl md:text-5xl text-white leading-tight mb-5">Vamos iniciar um<br>projeto juntos</h2>
+          <p class="reveal d2 text-zinc-400 leading-relaxed mb-8">Estou disponível para consultorias estratégicas, liderança de projetos de infraestrutura, auditorias de segurança e adequação regulatória (LGPD/ISO)[cite: 1]. Fique à vontade para me acionar.</p>
+
+          <div class="reveal d3 flex flex-col gap-4">
+            <!-- E-mail atualizado -->
+            <a href="mailto:g@dematosgoncalves.com" class="group flex items-center gap-3 text-zinc-400 hover:text-white transition-colors">
+              <span class="w-9 h-9 flex items-center justify-center bg-zinc-800 rounded-lg group-hover:bg-accent/20 transition-colors shrink-0">
+                <svg class="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              </span>
+              <span class="text-sm">g@dematosgoncalves.com</span>
+            </a>
+            
+            <!-- WhatsApp adicionado com base nos dados do seu currículo -->
+            <a href="https://wa.me/5511950606730" rel="noopener noreferrer" target="_blank" class="group flex items-center gap-3 text-zinc-400 hover:text-white transition-colors">
+              <span class="w-9 h-9 flex items-center justify-center bg-zinc-800 rounded-lg group-hover:bg-accent/20 transition-colors shrink-0">
+                <svg class="w-4 h-4 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.94.725l.548 2.2a1 1 0 01-.321.988l-1.305.98a10.582 10.582 0 004.872 4.872l.98-1.305a1 1 0 01.988-.321l2.2.548a1 1 0 01.725.94V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              </span>
+              <span class="text-sm">+55 (11) 95060-6730</span>
+            </a>
+
+            <!-- LinkedIn (Espaço para linkar o seu perfil real) -->
+            <a href="https://linkedin.com/in/seu-perfil" rel="noopener noreferrer" target="_blank" class="group flex items-center gap-3 text-zinc-400 hover:text-white transition-colors">
+              <span class="w-9 h-9 flex items-center justify-center bg-zinc-800 rounded-lg group-hover:bg-accent/20 transition-colors shrink-0">
+                <svg class="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+              </span>
+              <span class="text-sm">linkedin.com/in/geovani-matos</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- LADO DIREITO: FORMULÁRIO DE MENSAGEM TRADUZIDO -->
+        <div class="reveal d2">
+          <form action="#" method="POST" novalidate>
+            <div class="flex flex-col gap-4">
+              <div class="grid sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="fname" class="block text-xs font-medium text-zinc-400 mb-1.5">Nome completo <span aria-hidden="true">*</span></label>
+                  <input type="text" id="fname" name="name" placeholder="Ex: João Silva" required autocomplete="name"
+                    class="w-full bg-zinc-800 border border-zinc-700 text-white text-sm rounded-xl px-4 py-3 placeholder-zinc-600 focus:outline-none focus:border-accent transition-colors">
+                </div>
+                <div>
+                  <label for="femail" class="block text-xs font-medium text-zinc-400 mb-1.5">E-mail corporativo <span aria-hidden="true">*</span></label>
+                  <input type="email" id="femail" name="email" placeholder="empresa@contato.com" required autocomplete="email"
+                    class="w-full bg-zinc-800 border border-zinc-700 text-white text-sm rounded-xl px-4 py-3 placeholder-zinc-600 focus:outline-none focus:border-accent transition-colors">
+                </div>
+              </div>
+              <div>
+                <label for="fsubject" class="block text-xs font-medium text-zinc-400 mb-1.5">Assunto</label>
+                <input type="text" id="fsubject" name="subject" placeholder="Ex: Proposta de Consultoria / Projeto"
+                  class="w-full bg-zinc-800 border border-zinc-700 text-white text-sm rounded-xl px-4 py-3 placeholder-zinc-600 focus:outline-none focus:border-accent transition-colors">
+              </div>
+              <div>
+                <label for="fmessage" class="block text-xs font-medium text-zinc-400 mb-1.5">Mensagem <span aria-hidden="true">*</span></label>
+                <textarea id="fmessage" name="message" rows="4" placeholder="Descreva brevemente a necessidade da sua empresa..." required
+                  class="w-full bg-zinc-800 border border-zinc-700 text-white text-sm rounded-xl px-4 py-3 placeholder-zinc-600 focus:outline-none focus:border-accent transition-colors resize-none"></textarea>
+              </div>
+              <!-- Botão ajustado com texto escuro text-zinc-950 para dar contraste legível ao novo verde -->
+              <button type="submit" class="shimmer w-full bg-accent text-zinc-950 font-display font-bold text-sm py-3.5 rounded-xl hover:bg-accent-light transition-colors">
+                Enviar mensagem →
+              </button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="border-t border-zinc-100 dark:border-zinc-900 bg-white dark:bg-zinc-950 transition-colors">
+  <div class="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-6">
+    
+    <!-- Lado Esquerdo: Identidade minimalista e Copyright unificados -->
+    <div class="flex flex-col sm:flex-row items-center gap-4 sm:gap-6 text-center sm:text-left">
+      <a href="#hero" class="font-display font-bold text-lg tracking-tight shrink-0">
+        <span class="text-zinc-900 dark:text-white">geovani.</span><span class="text-accent">tech</span>
+      </a>
+      <!-- Divisor visual vertical que some no mobile -->
+      <div class="hidden sm:block w-px h-4 bg-zinc-200 dark:bg-zinc-800"></div>
+      <p class="text-xs text-zinc-400 font-light">
+        © <span id="yr"></span> Geovani de Matos Gonçalves. Todos os direitos reservados.
+      </p>
+    </div>
+
+    <!-- Lado Direito: Links Sociais e Assinatura limpos em linha -->
+    <div class="flex flex-col sm:flex-row items-center gap-6 text-xs text-zinc-400">
+      <!-- Links diretos sem ícones pesados ou listas verticais -->
+      <div class="flex items-center gap-5">
+        <a href="https://linkedin.com/in/geovani-matos" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">LinkedIn</a>
+        <a href="mailto:g@dematosgoncalves.com" class="hover:text-accent transition-colors">E-mail</a>
+        <a href="https://wa.me/5511950606730" target="_blank" rel="noopener noreferrer" class="hover:text-accent transition-colors">WhatsApp</a>
+      </div>
+      
+      <!-- Divisor visual vertical que some no mobile -->
+      <div class="hidden sm:block w-px h-4 bg-zinc-200 dark:bg-zinc-800"></div>
+      
+      <!-- Sua assinatura comercial super discreta (valoriza o seu trabalho sem roubar a cena) -->
+      <p class="text-zinc-500 font-light">
+        Proudly built by <a href="#" class="font-medium text-zinc-400 hover:text-accent transition-colors">Sua Marca</a>
+      </p>
+    </div>
+
+  </div>
+</footer>
+
+<!-- Mantém o script para o ano atualizar sozinho -->
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+
+<!-- Mantém o script para o ano atualizar sozinho -->
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+
+<!-- Script simples inserido para injetar o ano atual automaticamente no ID "yr" -->
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+
+<script>
+function app() {
+  return {
+    dark: false,
+    mm: false,
+    sc: false,
+    s: 'hero',
+
+    init() {
+      // dark mode
+      this.dark = localStorage.getItem('theme') === 'dark' ||
+        (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      this.$watch('dark', v => localStorage.setItem('theme', v ? 'dark' : 'light'));
+
+      // scroll
+      window.addEventListener('scroll', () => {
+        this.sc = window.scrollY > 20;
+        this.updateSection();
+      }, { passive: true });
+
+      // reveal
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+      // year
+      document.getElementById('yr').textContent = new Date().getFullYear();
+    },
+
+    updateSection() {
+      const atBottom = (window.innerHeight + window.scrollY) >= document.body.scrollHeight - 60;
+      if (atBottom) { this.s = 'contact'; return; }
+      const ids = ['contact','blog','reviews','about','work','services','hero'];
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el && window.scrollY >= el.offsetTop - 130) { this.s = id; return; }
+      }
+    }
+  }
+}
+</script>
+
+</body>
+</html>
